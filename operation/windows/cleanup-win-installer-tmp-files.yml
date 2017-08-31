@@ -1,0 +1,14 @@
+---
+- hosts: all
+  vars:
+#   write in /opt/ansible_win/hosts
+
+  tasks:
+  - name: Delete CbsPersist Log File
+    raw: CMD /C "del /S /F /Q C:\Windows\logs\CBS\CbsPersist_*.log"
+
+  - name: Delete ALL Temporary Cab Files
+    raw: CMD /C "del /S /F /Q C:\Windows\Temp\cab_*_*"
+
+  - name: Move CbsPersist Cab Files
+    script: MoveCbsPersistCab.ps1

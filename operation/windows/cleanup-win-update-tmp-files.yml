@@ -1,0 +1,18 @@
+---
+- hosts: all
+  vars:
+#   write in /opt/ansible_win/hosts
+
+  tasks:
+  - name: Stop Windows Update Service
+    raw: CMD /C "sc stop wuauserv"
+
+  - name: Delete ALL in SoftwareDistribution/DataStore Directory
+    raw: CMD /C "del /S /F /Q C:\Windows\SoftwareDistribution\DataStore\*"
+
+  - name: Delete ALL in SoftwareDistribution/Download Directory
+    raw: CMD /C "del /S /F /Q C:\Windows\SoftwareDistribution\Download\*"
+
+  - name: Start Windows Update Service
+    raw: CMD /C "sc start wuauserv"
+

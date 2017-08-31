@@ -1,0 +1,14 @@
+---
+- hosts: all
+  vars:
+#   write in /opt/ansible_win/hosts
+   
+  tasks:
+  - name: W32Time Service Start
+    win_service:
+      name: W32Time
+      state: started
+
+  - name: Sync Time
+    raw: CMD /C "w32tm /resync"
+
