@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  roles:
+     - { role: dj-wasabi.zabbix-server, 
+          zabbix_version: 4.0
+     }
