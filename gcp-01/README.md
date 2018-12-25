@@ -51,16 +51,18 @@
     cd roles
 
     ansible-galaxy install geerlingguy.postgresql
+    #ansible-galaxy install geerlingguy.apache
+    #ansible-galaxy install geerlingguy.php
+    ansible-galaxy install dj-wasabi.zabbix-web
     ansible-galaxy install dj-wasabi.zabbix-server
 
     mv ${/path/to/.ansible}/roles/* ./ 
-    mv ${/path/to/.ansible}/roles/* ./
 
+    cd ..  # ${your_appropriate_directory}/AnsiblePractice/gcp-01
 
-    # PostgreSQL 設定調整
+    sed -i -e "s/peer/trust/g" roles/geerlingguy.postgresql/defaults/main.yml   # for Mac OSX
 
-
-    # Zabbix-Server 設定調整
-
+    ansible-playbook ./01_postgresql-server.yaml -i [srv-01 IP Address]
+    ansible-playbook ./04_zabbix-single-server.yaml -i [srv-01 IP Address]
 
     ```
