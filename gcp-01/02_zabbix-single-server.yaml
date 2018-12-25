@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  roles:
+     - { role: geerlingguy.apache }
+     - { role: dj-wasabi.zabbix-server,
+          zabbix_version: 4.0
+     }
+     - { role: dj-wasabi.zabbix-web }
