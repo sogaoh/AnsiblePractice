@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+     - name: disable selinux
+       selinux: state=disabled
+     - name: stop firewalld
+       systemd:
+         name: firewalld
+         state: stopped
+         enabled: false
