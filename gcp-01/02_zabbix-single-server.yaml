@@ -8,9 +8,9 @@
      }
      - { role: dj-wasabi.zabbix-web,
           zabbix_version: 4.0,
-          zabbix_url: 35.221.67.59,
+          zabbix_url: [srv-01 Global IP Address],
           zabbix_timezone: Asia/Tokyo,
-          zabbix_server_name: 35.221.67.59,
+          zabbix_server_name: [srv-01 Global IP Address],
           zabbix_server_hostname: srv-01
       }
      - role: dj-wasabi.zabbix-agent
