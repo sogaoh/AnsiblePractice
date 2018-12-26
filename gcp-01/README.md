@@ -41,7 +41,7 @@
     ansible_become_method=enable
     ```
 
-- Set [srv-01 Global IP Address] to [srv-01 Global IP Address] in `02_zabbix-single-server.yaml`.
+- Set below parameters to [srv-01 Global IP Address] in `02_zabbix-single-server.yaml`.
     - zabbix_url
     - zabbix_server_name
 
