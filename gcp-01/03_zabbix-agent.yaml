@@ -1,0 +1,11 @@
+---
+- hosts: all
+  roles:
+     - role: dj-wasabi.zabbix-agent
+  tasks:
+    - include_role:
+        name: dj-wasabi.zabbix-agent
+      vars:
+        zabbix_agent_server: srv-01
+        zabbix_agent_serveractive: srv-01
+        zabbix_agent_listenip: 0.0.0.0

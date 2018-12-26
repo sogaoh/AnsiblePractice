@@ -9,3 +9,6 @@
          name: firewalld
          state: stopped
          enabled: false
+     - name: set timezone to Asia/Tokyo
+       timezone:
+         name: Asia/Tokyo
