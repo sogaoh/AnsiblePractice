@@ -53,15 +53,33 @@
     ansible-galaxy install geerlingguy.postgresql
     ansible-galaxy install dj-wasabi.zabbix-web
     ansible-galaxy install dj-wasabi.zabbix-server
+    ansible-galaxy install dj-wasabi.zabbix-agent
 
     mv ${/path/to/.ansible}/roles/* ./ 
 
-    cd ..  # ${your_appropriate_directory}/AnsiblePractice/gcp-01
+    cd ..      # ${your_appropriate_directory}/AnsiblePractice/gcp-01
 
-    sed -i -e "s/peer/trust/g" roles/geerlingguy.postgresql/defaults/main.yml   # for Mac OSX
+    sed -i -e "s/peer/trust/g" roles/geerlingguy.postgresql/defaults/main.yml     # "-e" is for Mac OSX
 
-    ansible-playbook ./00_stop-selinux-fw.yaml -i "[srv-01 IP Address],"
+    ansible-playbook ./00_initial-adjust.yaml -i "[srv-01 IP Address],"
     ansible-playbook ./01_postgresql-server.yaml -i "[srv-01 IP Address],"
     ansible-playbook ./02_zabbix-single-server.yaml -i "[srv-01 IP Address],"
 
+    ansible-playbook ./00_initial-adjust.yaml -i "[agt-01 IP Address],"
+    ansible-playbook ./03_zabbix-agent.yaml -i "[agt-01 IP Address],"
     ```
+    Check http://[srv-01 Global IP Address] 
+
+
+## 構築メモ
+- /etc/zabbix/zabbix_agentd.conf への以下指定は意図通りにできていない
+    - Hostname
+    - ListenIP
+- `srv-01` 自身の監視疎通が、このPlaybook群実行後も成立できていない。以下のエラーになっているが、追跡を断念（2018/12/26）
+    - Web UI
+        - `Received empty response from Zabbix Agent at [127.0.0.1]. Assuming that agent dropped connection because of access permissions.`
+    - zabbix_agentd.log
+        ```
+        no active checks on server [srv-01:10051]: host [(srv-01 Global IP Address)] not found
+        failed to accept an incoming connection: connection from "127.0.0.1" rejected, allowed hosts: "srv-01
+        ```

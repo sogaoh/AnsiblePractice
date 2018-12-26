@@ -6,4 +6,19 @@
      - { role: dj-wasabi.zabbix-server,
           zabbix_version: 4.0
      }
-     - { role: dj-wasabi.zabbix-web }
+     - { role: dj-wasabi.zabbix-web,
+          zabbix_version: 4.0,
+          zabbix_url: 35.221.67.59,
+          zabbix_timezone: Asia/Tokyo,
+          zabbix_server_name: 35.221.67.59,
+          zabbix_server_hostname: srv-01
+      }
+     - role: dj-wasabi.zabbix-agent
+  tasks:
+    - include_role:
+        name: dj-wasabi.zabbix-agent
+      vars:
+        zabbix_agent_server: srv-01
+        zabbix_agent_serveractive: srv-01
+        zabbix_agent_listenip: 0.0.0.0
+
