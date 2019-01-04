@@ -31,5 +31,5 @@ a Ansible Role
     - ex) `ansible-playbook ./pera-web.yaml -i "[target host IP, etc...]," -vv -C`
 
 ## Assumed Result
-![]()
+![](mackerel_nginx_status.png)
 
