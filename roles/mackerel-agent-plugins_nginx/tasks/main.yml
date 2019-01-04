@@ -1,0 +1,6 @@
+---
+- name: Set nginx_status config file
+  lineinfile: dest=/etc/mackerel-agent/mackerel-agent.conf line={{item}} backup=yes
+  with_items: "{{ nginx_plugin_config_standard }}"
+  changed_when: true
+  notify: "restart mackerel-agent" 

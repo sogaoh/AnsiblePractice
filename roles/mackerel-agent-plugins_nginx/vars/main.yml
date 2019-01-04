@@ -1,0 +1,4 @@
+---
+nginx_plugin_config_standard:
+  - '[plugin.metrics.nginx]'
+  - 'command = "mackerel-plugin-nginx"'
