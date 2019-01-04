@@ -28,9 +28,9 @@ a Ansible Role
 - Prepare playbook (Sample is below:)
     ```
     - hosts: all
-    become: yes
+      become: yes
 
-    roles:
+      roles:
         - mackerel-agent-plugins_nginx
     ```
 - Run playbook
