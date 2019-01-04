@@ -16,9 +16,15 @@ a Ansible Role
         - RHEL系OSであれば、 `yum install mackerel-agent-plugins` でok だと思う
 
 ## Usage
-- Get this `mackerel-agent-plugins_nginx`
-    - ex) `wget `
-- Place `mackerel-agent-plugins_nginx` to `roles` directory 
+- Get and Set `mackerel-agent-plugins_nginx`
+    - ex) 
+        ```
+        git clone https://github.com/sogaoh/AnsiblePractice.git
+        cd AnsiblePractice/roles
+        mv mackerel-agent-plugins_nginx ${your_properly_roles_directory}/
+        cd ../..
+        rm -rf AnsiblePractice
+        ```
 - Prepare playbook (Sample is below:)
     ```
     - hosts: all
