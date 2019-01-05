@@ -1,0 +1,4 @@
+---
+accesslog_plugin_config_standard:
+  - '[plugin.metrics.accesslog]'
+  - 'command = "mackerel-plugin-accesslog /var/log/nginx/access.log"'

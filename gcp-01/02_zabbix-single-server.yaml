@@ -21,4 +21,3 @@
         zabbix_agent_server: srv-01
         zabbix_agent_serveractive: srv-01
         zabbix_agent_listenip: 0.0.0.0
-
