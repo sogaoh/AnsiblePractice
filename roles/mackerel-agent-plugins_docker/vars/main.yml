@@ -1,0 +1,4 @@
+---
+docker_plugin_config_standard:
+  - '[plugin.metrics.docker]'
+  - 'command = "/usr/bin/mackerel-plugin-docker -method API"'
