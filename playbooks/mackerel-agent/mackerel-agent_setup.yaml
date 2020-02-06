@@ -1,0 +1,35 @@
+---
+# for over Ubuntu 18.04
+#   when: (ansible_distribution == "Ubuntu" and ansible_distribution_release == "xenial")
+
+- hosts: all
+  become: yes
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+#    mackerel_agent_apikey: "YOUR_API_KEY"
+
+  roles:
+    - mackerelio.mackerel-agent
+
+  tasks:
+    - name: Install mackerel-agent-plugins
+      apt: name=mackerel-agent-plugins
+
+
+#---
+## for over CentOS 7
+##   when: (ansible_distribution == "CentOS") or (ansible_distribution == "Amazon")
+#
+#- hosts: all
+#  become: yes
+#
+#  vars:
+##    mackerel_agent_apikey: "YOUR_API_KEY"
+#
+#  roles:
+#    - mackerelio.mackerel-agent
+#
+#  tasks:
+#    - name: Install mackerel-agent-plugins
+#      yum: name=mackerel-agent-plugins

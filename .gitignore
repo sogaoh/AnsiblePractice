@@ -1,3 +1,4 @@
 /gcp-01/inventory
 /gcp-01/*.retry
 /gcp-01/roles/*
+/playbooks/*/roles/*
