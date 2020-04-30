@@ -1,0 +1,99 @@
+# refs https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/monitoring/download-cloudwatch-agent-commandline.html
+# refs https://github.com/newtonne/ansible-role-cloudwatchagent/blob/master/tasks/install.yml
+---
+- name: Download CloudWatch Agent GPG public key
+  get_url:
+    url: "{{ cwa_gpg_url }}/amazon-cloudwatch-agent.gpg"
+    dest: /tmp
+
+- name: Verify GPG public key against known fingerprint
+  shell: |
+    gpg --with-colons --with-fingerprint /tmp/amazon-cloudwatch-agent.gpg |
+    awk -F: '$1 == "fpr" {print $10}'
+  register: cwa_gpg_verify
+  changed_when: false
+  failed_when: cwa_gpg_verify.stdout != cwa_gpg_fingerprint
+
+- name: Import GPG public key
+  command: gpg --import /tmp/amazon-cloudwatch-agent.gpg
+  register: cwa_gpg_import
+  changed_when: "'not changed' not in cwa_gpg_import.stderr"
+
+- name: Download CloudWatch Agent and GPG sig file
+  get_url:
+    url: "{{ cwa_download_url }}/{{ item }}"
+    dest: /tmp
+  with_items:
+    - "{{ cwa_pkg_file }}"
+    - "{{ cwa_sig_file }}"
+
+- name: Verify download against GPG sig file
+  command: gpg --verify {{ cwa_sig_file }} {{ cwa_pkg_file }}
+  args:
+    chdir: /tmp
+  changed_when: false
+
+
+- name: Install CloudWatch Agent (Debian)
+  apt:
+    deb: /tmp/{{ cwa_pkg_file }}
+  when: ansible_os_family == "Debian"
+  ignore_errors: yes
+
+
+# Avoid error
+# E! Error parsing /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.toml, open /usr/share/collectd/types.db: no such file
+- name: mkdir collectd in /usr/share/
+  file: path=/usr/share/collectd state=directory owner=root group=root mode=0755
+
+- name: touch types.db in /usr/share/collectd/
+  file: path=/usr/share/collectd/types.db state=touch owner=root group=root mode=0644
+
+
+# configure
+- name: Ensure json config file is in place and is valid
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ cwa_config_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+    validate: |
+      /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
+      -a fetch-config -c file:%s -m {{ cwa_mode }}
+  notify: restart cwa
+  with_items:
+    - amazon-cloudwatch-agent.json
+
+- name: Ensure service is started and enabled
+  service:
+    name: amazon-cloudwatch-agent
+    state: started
+    enabled: true
+
+- name: Configure log rotation
+  copy:
+    dest: /etc/logrotate.d/cloudwatch-agent
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      # Ansible managed
+      {{ cwa_logfile }} {
+        size 50M
+        rotate 8
+        compress
+        copytruncate
+        missingok
+      }
+
+
+# cleanup
+- name: Remove files downloaded to /tmp
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/amazon-cloudwatch-agent.gpg
+    - /tmp/{{ cwa_pkg_file }}
+    - /tmp/{{ cwa_sig_file }}

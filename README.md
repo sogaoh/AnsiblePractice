@@ -2,8 +2,9 @@
 
 Playbook examples for install & operations
 
-## CloudWatch Agent Series
-
+## CloudWatch Series
+- roles
+    - [cloudwatch-agent](aws-CloudWatch/roles/cloudwatch-agent)
 
 ## mackerel-agent Series
 - playbooks
