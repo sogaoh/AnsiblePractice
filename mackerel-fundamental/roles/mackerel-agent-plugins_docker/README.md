@@ -14,9 +14,9 @@ a Ansible Role
     - ex) 
         ```
         git clone https://github.com/sogaoh/AnsiblePractice.git
-        cd AnsiblePractice/roles
+        cd AnsiblePractice/mackerel-fundamental/roles
         mv mackerel-agent-plugins_docker ${your_properly_roles_directory}/
-        cd ../..
+        cd ../../..
         rm -rf AnsiblePractice
         ```
 - Prepare playbook (Sample is below:)

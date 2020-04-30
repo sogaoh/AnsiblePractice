@@ -29,7 +29,7 @@
     - ex) 
         ```
         git clone https://github.com/sogaoh/AnsiblePractice.git
-        cd AnsiblePractice/playbooks/mackerel-agent
+        cd AnsiblePractice/mackerel-fundamental/playbooks/mackerel-agent
         cp -p mackerel-agent_setup.yaml ${your_properly_execute_directory}/
         cd ${your_properly_execute_directory}
         # configure your ansible.cfg, inventory file, 
